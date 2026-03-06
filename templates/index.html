@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Question Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>AI Question Generator</h1>
+            <p class="subtitle">Paste a paragraph below and get quiz questions in seconds.</p>
+        </header>
+
+        <!-- Input section: text area and button -->
+        <section class="input-section">
+            <label for="paragraph">Your paragraph</label>
+            <textarea
+                id="paragraph"
+                name="paragraph"
+                rows="8"
+                placeholder="Paste or type your paragraph here..."
+            ></textarea>
+            <button type="button" id="generate-btn">Generate Questions</button>
+        </section>
+
+        <!-- Loading indicator (hidden by default) -->
+        <div id="loading" class="loading" style="display: none;">
+            Generating questions...
+        </div>
+
+        <!-- Error message area (hidden by default) -->
+        <div id="error" class="error" style="display: none;"></div>
+
+        <!-- Section where generated questions are displayed -->
+        <section id="results" class="results" style="display: none;">
+            <h2>Generated Questions</h2>
+            <div id="questions-content" class="questions-content"></div>
+        </section>
+    </div>
+
+    <script>
+        // Get references to the elements we need
+        const paragraphInput = document.getElementById("paragraph");
+        const generateBtn = document.getElementById("generate-btn");
+        const loadingEl = document.getElementById("loading");
+        const errorEl = document.getElementById("error");
+        const resultsEl = document.getElementById("results");
+        const questionsContent = document.getElementById("questions-content");
+
+        // When the user clicks "Generate Questions"
+        generateBtn.addEventListener("click", async function () {
+            const paragraph = paragraphInput.value.trim();
+
+            // Hide previous results and errors
+            errorEl.style.display = "none";
+            resultsEl.style.display = "none";
+            errorEl.textContent = "";
+
+            if (!paragraph) {
+                errorEl.textContent = "Please enter a paragraph first.";
+                errorEl.style.display = "block";
+                return;
+            }
+
+            // Show loading state
+            loadingEl.style.display = "block";
+            generateBtn.disabled = true;
+
+            try {
+                // Send the paragraph to our backend /generate route
+                const response = await fetch("/generate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ paragraph: paragraph }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || "Something went wrong.");
+                }
+
+                // Display the generated questions (preserve line breaks)
+                questionsContent.innerHTML = data.questions
+                    .replace(/\n/g, "<br>");
+                resultsEl.style.display = "block";
+            } catch (err) {
+                errorEl.textContent = err.message;
+                errorEl.style.display = "block";
+            } finally {
+                loadingEl.style.display = "none";
+                generateBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
