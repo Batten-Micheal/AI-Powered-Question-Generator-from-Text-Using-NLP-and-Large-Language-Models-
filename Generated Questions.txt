@@ -1,0 +1,27 @@
+Generated Questions
+=== MULTIPLE CHOICE ===
+1. Machine Learning (ML) is described as a subset of which broader field?
+   A) Data Science
+   B) Artificial Intelligence
+   C) Robotics
+   D) Software Engineering
+   Correct: B
+
+2. A key characteristic of Machine Learning systems, according to the text, is their ability to make decisions without what?
+   A) Constant human intervention
+   B) Being explicitly programmed for each task
+   C) Access to the internet
+   D) High-speed processors
+   Correct: B
+
+3. Which of the following is a primary function that Machine Learning enables systems to perform?
+   A) Designing new computer hardware
+   B) Writing complex operating systems
+   C) Identifying patterns in data
+   D) Manually coding every instruction
+   Correct: C
+
+=== SHORT ANSWER ===
+4. According to the text, what is the relationship between Machine Learning (ML) and Artificial Intelligence (AI)?
+5. From what source do Machine Learning systems primarily learn to identify patterns and make decisions?
+6. Name two specific capabilities or actions that Machine Learning systems enable, as described in the provided paragraph.
